@@ -10,6 +10,7 @@ ipython = "*"
 discord-py = "*"
 psycopg2-binary = "*"
 psycopg2 = "*"
+bs4 = "*"
 
 [requires]
 python_version = "3.7"
