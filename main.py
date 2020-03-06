@@ -3,7 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 
-TOKEN = 'Njg1MTU0MjM0OTE5OTQ0MjE5.XmGeBw.PUd_eAiE3PPIXpK2_pTaetp1ayo'
+TOKEN = 'Njg1MTU0MjM0OTE5OTQ0MjE5.XmGgGw.vPL6w5oZrYiEWA_2UL181QfaKls'
 
 client = discord.Client()
 
