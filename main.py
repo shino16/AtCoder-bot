@@ -61,7 +61,7 @@ async def update_all(conn):
     with conn.cursor() as cur:
         for guild in bot.guilds:
             for member in guild.members:
-                if guild.id == 659753054694014977 and not member.bot:
+                if not member.bot:
                     name = get_name(member, cur)
                     conn.commit()
                     color = get_color(name)
