@@ -30,7 +30,7 @@ async def on_ready():
         await asyncio.sleep(86400)
 
 
-@bot.command(name="updateAll")
+# @bot.command(name="updateAll")
 async def update_all(ctx):
     with psycopg2.connect(DATABASE_URL) as conn:
         await update_all(conn)
