@@ -8,8 +8,6 @@ ipython = "*"
 
 [packages]
 discord-py = "*"
-psycopg2-binary = "*"
-psycopg2 = "*"
 bs4 = "*"
 
 [requires]
