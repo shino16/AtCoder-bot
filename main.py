@@ -5,6 +5,7 @@ import psycopg2
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import asyncio
+from datetime import datetime, timedelta
 
 
 TOKEN = 'Njg1MTU0MjM0OTE5OTQ0MjE5.XmGnBA.N6r9yyCPtxH2Iuazod12u9eQbcA'
@@ -17,10 +18,15 @@ bot = commands.Bot(command_prefix="!")
 @bot.event
 async def on_ready():
     print("Start!")
-    with psycopg2.connect(DATABASE_URL) as conn:
-        print("### Update all")
-        await update_all(conn)
-        print("### Finished")
+    now = datetime.now()
+    wait_for = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0)
+    print("Update scheduled at " + str(wait_for))
+    await asyncio.sleep((wait_for - now).total_seconds())
+    while True:
+        with psycopg2.connect(DATABASE_URL) as conn:
+            print("### Update all")
+            await update_all(conn)
+            print("### Finished")
         await asyncio.sleep(86400)
 
 
