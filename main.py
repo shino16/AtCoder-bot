@@ -47,7 +47,7 @@ async def identify(ctx, name: str):
         conn.commit()
         print(f"{ctx.author.display_name}'s atcoder_name changed to: {name}")
         if not name.count("`"):
-            await ctx.send(f"AtCoderユーザ名が `{name}` に変更されました`")
+            await ctx.send(f"AtCoderユーザ名が `{name}` に変更されました")
         else:
             await ctx.send(f"AtCoderユーザ名が変更されました`")
     except Exception as e:
