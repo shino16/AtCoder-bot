@@ -8,7 +8,7 @@ import asyncio
 from datetime import datetime, timedelta
 
 
-TOKEN = 'Njg1MTU0MjM0OTE5OTQ0MjE5.XmGnBA.N6r9yyCPtxH2Iuazod12u9eQbcA'
+TOKEN = ''
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
