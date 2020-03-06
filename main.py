@@ -49,7 +49,7 @@ async def identify(ctx, name: str):
         if not name.count("`"):
             await ctx.send(f"AtCoderユーザ名が `{name}` に変更されました")
         else:
-            await ctx.send(f"AtCoderユーザ名が変更されました`")
+            await ctx.send(f"AtCoderユーザ名が変更されました")
     except Exception as e:
         await ctx.send(f"エラー：{e}")
     finally:
@@ -72,28 +72,30 @@ async def update_all(conn):
 def get_name(member, cur):
     discord_name = f"{member.name}#{member.discriminator}"
     cur.execute("SELECT atcoder_name FROM profile "
-                f"WHERE discord_name = '{discord_name}'")
+                "WHERE discord_name = %s", (discord_name,))
     fetched = cur.fetchone()
     if fetched:
         atcoder_name = fetched[0]
     else:
         atcoder_name = member.display_name
         cur.execute("INSERT INTO profile (discord_name, atcoder_name, color) "
-                    f"VALUES ('{discord_name}', '{atcoder_name}', '')")
+                    "VALUES (%s, %s, '')",
+                    (discord_name, atcoder_name))
     return atcoder_name
 
 
 def set_name(name, member, cur):
     discord_name = f"{member.name}#{member.discriminator}"
+    print(discord_name)
     cur.execute("SELECT atcoder_name FROM profile "
-                f"WHERE discord_name = '{discord_name}'")
+                f"WHERE discord_name = %s", (discord_name,))
     fetched = cur.fetchone()
     if fetched:
         cur.execute(f"UPDATE profile SET atcoder_name = '{name}' "
-                    f"WHERE discord_name = '{discord_name}'")
+                    f"WHERE discord_name = %s", (discord_name,))
     else:
         cur.execute("INSERT INTO profile (discord_name, atcoder_name, color) "
-                    f"VALUES ('{discord_name}', '{name}', '')")
+                    f"VALUES (%s, %s, '')", (discord_name, name))
 
 
 def get_color(name):
