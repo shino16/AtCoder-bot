@@ -3,7 +3,7 @@ import pickle
 import os
 import iso8601
 from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
+from
 from google.auth.transport.requests import Request
 from discord_webhook import DiscordWebhook
 
@@ -11,7 +11,7 @@ from discord_webhook import DiscordWebhook
 scope = "https://www.googleapis.com/auth/calendar.readonly"
 
 credential = {"installed": {
-    "client_id": os.environ["CALENDAR_ID"],
+    "client_id": os.environ["CLIENT_ID"],
     "project_id": os.environ["CALENDAR_PROJECT_ID"],
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
