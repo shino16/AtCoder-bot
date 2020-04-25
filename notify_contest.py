@@ -11,7 +11,7 @@ from discord_webhook import DiscordWebhook
 scope = "https://www.googleapis.com/auth/calendar.readonly"
 
 credential = {"installed": {
-    "client_id": os.environ["CALENDAR_ID"],
+    "client_id": os.environ["CLIENT_ID"],
     "project_id": os.environ["CALENDAR_PROJECT_ID"],
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
