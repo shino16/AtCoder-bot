@@ -40,9 +40,9 @@ def main():
     now = datetime.now(JST)
     for event in get_events():
         start_time = iso8601.parse_date(event["start"]["dateTime"])
-        minutes = (start_time - now).total_seconds() // 60
+        minutes = (start_time - now).total_seconds() / 60
         if minutes >= 7 and minutes < 17:
-            notify(start_time, event["summary"], f"あと{minutes}分")
+            notify(start_time, event["summary"], f"あと{round(minutes)}分")
         if minutes >= 52 and minutes < 62:
             notify(start_time, event["summary"], "あと1時間")
         if minutes >= 1440 and minutes < 1450:
