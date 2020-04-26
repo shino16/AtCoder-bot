@@ -14,7 +14,7 @@ calendar_id = os.environ["CALENDAR_ID"]
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
-webhook_url = os.environ["CALENDAR_WEBHOOK_URL"]
+webhook_url = os.environ["NOTIFY_WEBHOOK_URL"]
 
 
 def get_events():
