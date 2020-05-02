@@ -47,7 +47,7 @@ def main():
             notify(start_time, event["summary"], f"あと15分")
         if minutes >= 52 and minutes < 62:
             notify(start_time, event["summary"], "あと1時間")
-        if minutes >= 1440 and minutes < 1450:
+        if minutes >= 1432 and minutes < 1442:
             notify(start_time, event["summary"], "明日")
 
 
