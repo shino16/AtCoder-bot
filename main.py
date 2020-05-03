@@ -26,9 +26,9 @@ async def on_ready():
 
 
 # @bot.command(name="updateAll")
-async def update_all(ctx):
-    with psycopg2.connect(DATABASE_URL) as conn:
-        await update_all(conn)
+# async def update_all(ctx):
+#     with psycopg2.connect(DATABASE_URL) as conn:
+#         await update_all(conn)
 
 
 @bot.command()
@@ -45,6 +45,9 @@ async def identify(ctx, name: str):
             await ctx.send(f"AtCoderユーザ名が `{name}` に変更されました")
         else:
             await ctx.send(f"AtCoderユーザ名が変更されました")
+        color = get_color(name)
+        if color and color != "unrated":
+            await set_role(ctx.author, color)
     except Exception as e:
         await ctx.send(f"エラー：{e}")
     finally:
@@ -58,7 +61,8 @@ async def update_all(conn):
             for member in guild.members:
                 if not member.bot:
                     name = get_name(member, cur)
-                    conn.commit()
+                    if not name:
+                        continue
                     color = get_color(name)
                     if color and color != "unrated":
                         await set_role(member, color)
@@ -70,13 +74,9 @@ def get_name(member, cur):
                 "WHERE discord_name = %s", (discord_name,))
     fetched = cur.fetchone()
     if fetched:
-        atcoder_name = fetched[0]
+        return fetched[0]
     else:
-        atcoder_name = member.display_name
-        cur.execute("INSERT INTO profile (discord_name, atcoder_name, color) "
-                    "VALUES (%s, %s, '')",
-                    (discord_name, atcoder_name))
-    return atcoder_name
+        return None
 
 
 def set_name(name, member, cur):
