@@ -61,8 +61,7 @@ async def update_all(conn):
             for member in guild.members:
                 if not member.bot:
                     name = get_name(member, cur)
-                    if not name:
-                        continue
+                    conn.commit()
                     color = get_color(name)
                     if color and color != "unrated":
                         await set_role(member, color)
@@ -74,9 +73,13 @@ def get_name(member, cur):
                 "WHERE discord_name = %s", (discord_name,))
     fetched = cur.fetchone()
     if fetched:
-        return fetched[0]
+        atcoder_name = fetched[0]
     else:
-        return None
+        atcoder_name = member.display_name
+        cur.execute("INSERT INTO profile (discord_name, atcoder_name, color) "
+                    "VALUES (%s, %s, '')",
+                    (discord_name, atcoder_name))
+    return atcoder_name
 
 
 def set_name(name, member, cur):
