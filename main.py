@@ -18,11 +18,14 @@ bot = commands.Bot(command_prefix="!")
 async def on_ready():
     print("Start!")
     while True:
-        with psycopg2.connect(DATABASE_URL) as conn:
-            print("### Update all")
-            await update_all(conn)
-            print("### Finished")
-        await asyncio.sleep(900)
+        try:
+            with psycopg2.connect(DATABASE_URL) as conn:
+                print("### Update all")
+                await update_all(conn)
+                print("### Finished")
+            await asyncio.sleep(900)
+        except Exception as e:
+            print(f"[Error] {e}")
 
 
 # @bot.command(name="updateAll")
