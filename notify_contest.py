@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from time import sleep
 import pickle
 import os
 import json
@@ -36,8 +37,8 @@ def notify(time, title, msg):
     DiscordWebhook(url=webhook_url, content=content).execute()
 
 
-def main():
-    now = datetime.now(JST)
+def run(now):
+    print("start")
     for event in get_events():
         start_time = iso8601.parse_date(event["start"]["dateTime"])
         minutes = (start_time - now).total_seconds() / 60
@@ -47,6 +48,18 @@ def main():
             notify(start_time, event["summary"], "あと1時間")
         if minutes >= 1438 and minutes < 1443:
             notify(start_time, event["summary"], "明日")
+    print("finish")
+
+
+def main():
+    while True:
+        if datetime.now().second == 0:
+            break
+    while True:
+        now = datetime.now()
+        if now.minute % 5 == 0 and now.second == 0:
+            run(now)
+            sleep(3*60)
 
 
 if __name__ == "__main__":
