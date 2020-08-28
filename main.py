@@ -38,24 +38,21 @@ async def on_ready():
 async def identify(ctx, name: str):
     if not get_color(name):
         await ctx.send("警告：そのようなAtCoderアカウントは見つかりません")
-    conn = psycopg2.connect(DATABASE_URL)
-    cur = conn.cursor()
-    try:
-        set_name(name, ctx.author, cur)
-        conn.commit()
-        print(f"{ctx.author.display_name}'s atcoder_name changed to: {name}")
-        if not name.count("`"):
-            await ctx.send(f"AtCoderユーザ名が `{name}` に変更されました")
-        else:
-            await ctx.send(f"AtCoderユーザ名が変更されました")
-        color = get_color(name)
-        if color and color != "unrated":
-            await set_role(ctx.author, color)
-    except Exception as e:
-        await ctx.send(f"エラー：{e}")
-    finally:
-        cur.close()
-        conn.close()
+    with psycopg2.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cur:
+            try:
+                set_name(name, ctx.author, cur)
+                conn.commit()
+                print(f"{ctx.author.display_name}'s atcoder_name changed to: {name}")
+                if not name.count("`"):
+                    await ctx.send(f"AtCoderユーザ名が `{name}` に変更されました")
+                else:
+                    await ctx.send(f"AtCoderユーザ名が変更されました")
+                color = get_color(name)
+                if color and color != "unrated":
+                    await set_role(ctx.author, color)
+            except Exception as e:
+                await ctx.send(f"エラー：{e}")
 
 
 async def update_all(conn):
