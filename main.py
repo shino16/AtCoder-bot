@@ -25,7 +25,8 @@ async def on_ready():
                 print("### Finished")
             await asyncio.sleep(900)
         except Exception as e:
-            print(f"[Error] {e}")
+            pass
+            # print(f"[Error] {e}")
 
 
 # @bot.command(name="updateAll")
@@ -37,7 +38,7 @@ async def on_ready():
 @bot.command()
 async def identify(ctx, name: str):
     if not get_color(name):
-        await ctx.send("警告：そのようなAtCoderアカウントは見つかりません")
+        await ctx.send("注意：そのようなAtCoderアカウントは見つかりません")
     with psycopg2.connect(DATABASE_URL) as conn:
         with conn.cursor() as cur:
             try:
