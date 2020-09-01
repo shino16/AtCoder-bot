@@ -24,8 +24,7 @@ async def on_ready():
             print("### Finish")
             await asyncio.sleep(900)
         except Exception as e:
-            pass
-            # print(f"[Error] {e}")
+            print(f"[Error] {e}")
 
 
 # @bot.command(name="updateAll")
@@ -42,7 +41,7 @@ async def identify(ctx, name: str):
         with psycopg2.connect(DATABASE_URL) as conn:
             with conn.cursor() as cur:
                 set_name(name, ctx.author, cur)
-                conn.commit()
+            conn.commit()
         print(f"{ctx.author.display_name}'s atcoder_name changed to: {name}")
         if not name.count("`"):
             await ctx.send(f"AtCoderユーザ名が `{name}` に変更されました")
@@ -57,12 +56,14 @@ async def identify(ctx, name: str):
 
 async def update_all():
     for guild in bot.guilds:
-        for member in guild.members:
+        total = len(guild.members)
+        for i, member in enumerate(guild.members):
+            print(i, "/", total)
             if not member.bot:
                 with psycopg2.connect(DATABASE_URL) as conn:
                     with conn.cursor() as cur:
                         name = get_name(member, cur)
-                        conn.commit()
+                    conn.commit()
                 color = get_color(name)
                 if color and color != "unrated":
                     await set_role(member, color)
