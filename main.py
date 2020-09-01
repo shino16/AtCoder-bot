@@ -19,10 +19,8 @@ async def on_ready():
     print("Start!")
     while True:
         try:
-            with psycopg2.connect(DATABASE_URL) as conn:
-                print("### Update all")
-                await update_all(conn)
-                print("### Finished")
+            print("### Update all")
+            await update_all()
             await asyncio.sleep(900)
         except Exception as e:
             pass
@@ -56,16 +54,17 @@ async def identify(ctx, name: str):
                 await ctx.send(f"エラー：{e}")
 
 
-async def update_all(conn):
-    with conn.cursor() as cur:
-        for guild in bot.guilds:
-            for member in guild.members:
-                if not member.bot:
-                    name = get_name(member, cur)
-                    conn.commit()
-                    color = get_color(name)
-                    if color and color != "unrated":
-                        await set_role(member, color)
+async def update_all():
+    for guild in bot.guilds:
+        for member in guild.members:
+            if not member.bot:
+                with psycopg2.connect(DATABASE_URL) as conn:
+                    with conn.cursor() as cur:
+                        name = get_name(member, cur)
+                        conn.commit()
+                color = get_color(name)
+                if color and color != "unrated":
+                    await set_role(member, color)
 
 
 def get_name(member, cur):
