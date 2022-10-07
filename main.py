@@ -11,7 +11,9 @@ TOKEN = os.environ['DISCORD_TOKEN']
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
-bot = commands.Bot(command_prefix="!")
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 @bot.event
