@@ -9,7 +9,6 @@ ipython = "*"
 [packages]
 discord-py = "*"
 bs4 = "*"
-psycopg2-binary = "*"
 psycopg2 = "*"
 google-api-python-client = "*"
 google-auth-httplib2 = "*"
